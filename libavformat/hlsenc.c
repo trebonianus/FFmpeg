@@ -1826,7 +1826,9 @@ static int parse_variant_stream_mapstring(AVFormatContext *s)
      * a:, v:, s: are keys to specify audio, video and subtitle streams
      * respectively. Allowed values are 0 to 9 digits (limited just based on
      * practical usage)
-     *
+     * 
+     * d: is a key to specify data stream. This is NOT part of original ffmpeg
+     * 
      * agroup: is key to specify audio group. A string can be given as value.
      */
     p = av_strdup(hls->var_stream_map);
@@ -1884,7 +1886,9 @@ static int parse_variant_stream_mapstring(AVFormatContext *s)
                 codec_type = AVMEDIA_TYPE_AUDIO;
             } else if (av_strstart(keyval, "s:", &val)) {
                 codec_type = AVMEDIA_TYPE_SUBTITLE;
-            } else {
+            } else if (av_strstart(keyval, "d:", &val)) {
+                codec_type = AVMEDIA_TYPE_DATA;
+            }else {
                 av_log(s, AV_LOG_ERROR, "Invalid keyval %s\n", keyval);
                 return AVERROR(EINVAL);
             }
