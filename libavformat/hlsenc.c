@@ -1858,7 +1858,7 @@ static int parse_variant_stream_mapstring(AVFormatContext *s)
         q = varstr;
         while (q < varstr + strlen(varstr)) {
             if (!av_strncasecmp(q, "a:", 2) || !av_strncasecmp(q, "v:", 2) ||
-                !av_strncasecmp(q, "s:", 2))
+                !av_strncasecmp(q, "s:", 2) || !av_strncasecmp(q, "d:", 2))
                 vs->nb_streams++;
             q++;
         }
@@ -1888,7 +1888,7 @@ static int parse_variant_stream_mapstring(AVFormatContext *s)
                 codec_type = AVMEDIA_TYPE_SUBTITLE;
             } else if (av_strstart(keyval, "d:", &val)) {
                 codec_type = AVMEDIA_TYPE_DATA;
-            }else {
+            } else {
                 av_log(s, AV_LOG_ERROR, "Invalid keyval %s\n", keyval);
                 return AVERROR(EINVAL);
             }
