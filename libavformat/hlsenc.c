@@ -2127,8 +2127,6 @@ static int parse_variant_stream_mapstring(AVFormatContext *s)
                 codec_type = AVMEDIA_TYPE_AUDIO;
             } else if (av_strstart(keyval, "s:", &val)) {
                 codec_type = AVMEDIA_TYPE_SUBTITLE;
-            } else if (av_strstart(keyval, "s:", &val)) {
-                codec_type = AVMEDIA_TYPE_SUBTITLE;
             } else if (av_strstart(keyval, "d:", &val)) {
                 codec_type = AVMEDIA_TYPE_DATA;
             } else {
