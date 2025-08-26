@@ -1,0 +1,31 @@
+diff --git a/libavformat/hlsenc.c b/libavformat/hlsenc.c
+index 081d91f7d9..ca86481763 100644
+--- a/libavformat/hlsenc.c
++++ b/libavformat/hlsenc.c
+@@ -2046,6 +2046,8 @@ static int parse_variant_stream_mapstring(AVFormatContext *s)
+      * a:, v:, s: are keys to specify audio, video and subtitle streams
+      * respectively. Allowed values are 0 to 9 digits (limited just based on
+      * practical usage)
++     * 
++     * d: is a key to specify data stream. This is NOT part of original ffmpeg.
+      *
+      * agroup: is key to specify audio group. A string can be given as value.
+      * sgroup: is key to specify subtitle group. A string can be given as value.
+@@ -2082,7 +2084,7 @@ static int parse_variant_stream_mapstring(AVFormatContext *s)
+         q = varstr;
+         while (1) {
+             if (!av_strncasecmp(q, "a:", 2) || !av_strncasecmp(q, "v:", 2) ||
+-                !av_strncasecmp(q, "s:", 2))
++                !av_strncasecmp(q, "s:", 2) || !av_strncasecmp(q, "d:", 2))
+                 vs->nb_streams++;
+             q = strchr(q, ',');
+             if (!q)
+@@ -2125,6 +2127,8 @@ static int parse_variant_stream_mapstring(AVFormatContext *s)
+                 codec_type = AVMEDIA_TYPE_AUDIO;
+             } else if (av_strstart(keyval, "s:", &val)) {
+                 codec_type = AVMEDIA_TYPE_SUBTITLE;
++            } else if (av_strstart(keyval, "d:", &val)) {
++                codec_type = AVMEDIA_TYPE_DATA;
+             } else {
+                 av_log(s, AV_LOG_ERROR, "Invalid keyval %s\n", keyval);
+                 return AVERROR(EINVAL);
